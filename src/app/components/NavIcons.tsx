@@ -22,19 +22,27 @@ const NavIcons = () => {
       } = await supabase.auth.getUser();
 
       setIsLoggedIn(!!user);
+
+      if (user) {
+        const { data: cart } = await supabase
+          .from("Carts")
+          .select("id")
+          .eq("user_id", user.id)
+          .single();
+
+        if (cart) {
+          const { data: items } = await supabase
+            .from("Cart_Items")
+            .select("quantity")
+            .eq("cart_id", cart.id);
+
+
+
+        }
+      }
     };
 
     checkUser();
-
-    const { data: listener } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        setIsLoggedIn(!!session?.user);
-      }
-    );
-
-    return () => {
-      listener?.subscription.unsubscribe();
-    };
   }, []);
 
   useEffect(() => {

@@ -7,7 +7,7 @@ export const CurrencyProvider = ({ children }) => {
   const [currency, setCurrency] = useState('CAD');
   const [rates, setRates] = useState({
     CAD: 1,
-    USD: 0.74,
+    USD: 0.73,
     EUR: 0.68,
   });
 

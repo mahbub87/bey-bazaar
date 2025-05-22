@@ -21,6 +21,7 @@ const Menu = () => {
                         <Link href="/">Home</Link>
                         <Link href="/list">Shop</Link>
                         <Link href="/contact">Contact</Link>
+                        <Link href="/profile">Profile</Link>
                         <Link href="/">Logout</Link>
                         <Link href="/">Cart(1)</Link>
                     </div>

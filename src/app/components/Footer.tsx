@@ -48,23 +48,6 @@ export default function Footer() {
             Shipping policy
           </a>
         </div>
-
-        {/* PayPal Logo */}
-        <div>
-          <a
-            href="/digital-wallet/ways-to-pay/add-payment-method"
-            title="How PayPal Works"
-            onClick={(e) => {
-              e.preventDefault();
-            }}
-          >
-            <img
-              src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_37x23.jpg"
-              alt="PayPal Logo"
-              className="w-[37px] h-[23px]"
-            />
-          </a>
-        </div>
       </div>
 
       {/* Social Media Icons */}

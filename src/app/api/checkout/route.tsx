@@ -7,53 +7,69 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 });
 
 export async function POST(req: Request) {
-  const { user_id, user_email } = await req.json(); // Get email from frontend
+  try {
+    const { user_id, user_email, currency } = await req.json();
 
-  const { data: cart, error: cartErr } = await supabase
-    .from("Carts")
-    .select("id")
-    .eq("user_id", user_id)
-    .single();
+    if (!user_id || !currency) {
+      return NextResponse.json({ error: "Missing user_id or currency" }, { status: 400 });
+    }
 
-  if (cartErr || !cart) {
-    return NextResponse.json({ error: "Cart not found" }, { status: 404 });
-  }
+    const { data: cart, error: cartErr } = await supabase
+      .from("Carts")
+      .select("id")
+      .eq("user_id", user_id)
+      .single();
 
-  const { data: cartItems, error: cartItemsErr } = await supabase
-    .from("Cart_Items")
-    .select("quantity, product:product_id(name, price, image_url)")
-    .eq("cart_id", cart.id);
+    if (cartErr || !cart) {
+      return NextResponse.json({ error: "Cart not found" }, { status: 404 });
+    }
 
-  if (cartItemsErr || !cartItems || cartItems.length === 0) {
-    return NextResponse.json({ error: "No items in cart" }, { status: 400 });
-  }
+    const { data: cartItems, error: cartItemsErr } = await supabase
+      .from("Cart_Items")
+      .select("quantity, product:product_id(name, price, image_url)")
+      .eq("cart_id", cart.id);
 
-  const line_items = cartItems.map((item: any) => ({
-    price_data: {
-      currency: "usd",
-      product_data: {
-        name: item.product.name,
-        images: [item.product.image_url],
+    if (cartItemsErr || !cartItems || cartItems.length === 0) {
+      return NextResponse.json({ error: "No items in cart" }, { status: 400 });
+    }
+
+    const conversionRates = {
+      CAD: 1,
+      USD: 0.73,
+      EUR: 0.68,
+    };
+
+    const rate = conversionRates[currency] || 1;
+
+    const line_items = cartItems.map((item: any) => ({
+      price_data: {
+        currency: currency.toLowerCase(),
+        product_data: {
+          name: item.product.name,
+          images: [item.product.image_url],
+        },
+        unit_amount: Math.round(item.product.price * rate * 100),
       },
-      unit_amount: Math.round(item.product.price * 100),
-    },
-    quantity: item.quantity,
-  }));
+      quantity: item.quantity,
+    }));
 
-  const session = await stripe.checkout.sessions.create({
-    payment_method_types: ["card"],
-    line_items,
-    mode: "payment",
-    customer_email: user_email, 
-    metadata: {
-      user_id, 
-    },
-    shipping_address_collection: {
-      allowed_countries: ["US", "CA"],
-    },
-    success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/success`,
-    cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/`,
-  });
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      line_items,
+      mode: "payment",
+      customer_email: user_email,
+      metadata: { user_id },
+      shipping_address_collection: {
+        allowed_countries: ["US", "CA","GB"],
+      },
+      success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/success`,
+      cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/`,
+    });
 
-  return NextResponse.json({ url: session.url });
+    return NextResponse.json({ url: session.url });
+  } catch (error) {
+    console.error("Stripe checkout error:", error);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+  }
 }
+

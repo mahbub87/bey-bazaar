@@ -147,7 +147,6 @@ export async function POST(req: Request) {
   `,
     });
 
-    // Clear cart
     await supabase.from("Cart_Items").delete().eq("cart_id", cart.id);
   }
 

@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import Image from "next/image";
 import { supabase } from "../lib/supabaseClient";
 import { useRouter } from "next/navigation";
 import { useCart } from "../contexts/CartContext";
+import { CurrencyContext } from "../contexts/CurrencyContext";
 
 interface CartItem {
   id: string;
@@ -20,9 +21,29 @@ const CartModal = () => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState(true);
   const { refreshCart } = useCart();
+  const { currency } = useContext(CurrencyContext);
   const router = useRouter();
 
-  const handleCheckout = async () => {
+  const getPrice = (price: number) => {
+    const rates: Record<string, number> = {
+      CAD: 1,
+      USD: 0.73,
+      EUR: 0.68,
+    };
+
+    const symbols: Record<string, string> = {
+      CAD: "$",
+      USD: "$",
+      EUR: "€",
+    };
+
+    const rate = rates[currency] || 1;
+    const symbol = symbols[currency] || "$";
+
+    return `${symbol}${(price * rate).toFixed(2)}`;
+  };
+
+ const handleCheckout = async () => {
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -30,13 +51,22 @@ const CartModal = () => {
   if (!user) return;
 
   const res = await fetch("/api/checkout", {
-    method: "POST",
-    body: JSON.stringify({ user_id: user.id }),
-  });
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    user_id: user.id,
+    user_email: user.email,
+    currency,
+  }),
+});
+
 
   const { url } = await res.json();
   if (url) window.location.href = url;
 };
+
   useEffect(() => {
     const fetchCartItems = async () => {
       const {
@@ -70,7 +100,7 @@ const CartModal = () => {
     };
 
     fetchCartItems();
-  }, []);
+  }, [currency]); 
 
   const handleRemove = async (itemId: string) => {
     await supabase.from("Cart_Items").delete().eq("id", itemId);
@@ -110,7 +140,7 @@ const CartModal = () => {
                         {item.product.name}
                       </h3>
                       <div className="p-1 rounded-sm text-white">
-                        ${item.product.price}
+                        {getPrice(item.product.price)}
                       </div>
                     </div>
                     <div className="text-sm text-gray-500">Available</div>
@@ -132,14 +162,14 @@ const CartModal = () => {
           <div className="border-t pt-4">
             <div className="flex items-center justify-between font-semibold text-white">
               <span>Subtotal</span>
-              <span>${subtotal.toFixed(2)}</span>
+              <span>{getPrice(subtotal)}</span>
             </div>
             <p className="text-gray-500 text-sm mt-2 mb-4">
               Taxes calculated at checkout
             </p>
             <div className="flex justify-end text-sm gap-2">
               <button
-                 onClick={handleCheckout}
+                onClick={handleCheckout}
                 className="rounded-md py-3 px-4 bg-white text-black"
               >
                 Checkout

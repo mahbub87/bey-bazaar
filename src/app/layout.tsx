@@ -23,18 +23,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} pt-20`}
-      >
+      > <CurrencyProvider>
         <CartProvider>
            <Navbar />
-        <CurrencyProvider>
+       
           {children}
-        
-        
 
         <Footer/>
-        </CurrencyProvider>
+        
         </CartProvider>
-       
+       </CurrencyProvider>
       </body>
     </html>
   );

@@ -1,14 +1,35 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { supabase } from "../lib/supabaseClient"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
+import { CurrencyContext } from "../contexts/CurrencyContext" // ✅ Import currency context
 
 export default function ProfilePage() {
   const [user, setUser] = useState(null)
   const [orders, setOrders] = useState([])
   const router = useRouter()
+
+   const { currency } = useContext(CurrencyContext);
+   const getPrice = (price: number) => {
+    const rates: Record<string, number> = {
+      CAD: 1,
+      USD: 0.73,
+      EUR: 0.68,
+    };
+
+    const symbols: Record<string, string> = {
+      CAD: "$",
+      USD: "$",
+      EUR: "€",
+    };
+
+    const rate = rates[currency] || 1;
+    const symbol = symbols[currency] || "$";
+
+    return `${symbol}${(price * rate).toFixed(2)}`;
+  };
 
   useEffect(() => {
     const getUserAndOrders = async () => {
@@ -58,7 +79,7 @@ export default function ProfilePage() {
           {orders.map((order) => {
             const product = order.Products
             return (
-              <div key={order.id} className=" rounded-lg p-4 ">
+              <div key={order.id} className="rounded-lg p-4">
                 <Link href={`/${product.id}`}>
                   <img
                     src={product.image_url}
@@ -70,7 +91,10 @@ export default function ProfilePage() {
                 <div className="mt-2 text-sm">
                   <p><strong>Order ID:</strong> {order.id}</p>
                   <p><strong>Quantity:</strong> {order.quantity}</p>
-                  <p><strong>Total:</strong> ${order.total_price.toFixed(2)}</p>
+                  <p>
+                    <strong>Total:</strong>{" "}
+                    {getPrice(order.total_price)}
+                  </p>
                   <p><strong>Shipping Address:</strong> {order.shipping_address}</p>
                   <p className="text-gray-500">
                     Ordered on: {new Date(order.created_at).toLocaleString()}

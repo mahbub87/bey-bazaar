@@ -16,7 +16,7 @@ const ListPage = () => {
       <div className="hidden bg-black p-4 sm:flex justify-between h-64">
         <div className="w-2/3 flex flex-col items-center justify-center gap-8">
           <h1 className="text-4xl font-semibold leading-[48px] text-gray-300">
-            Grab Up 10% Off When <br />
+            Grab 10% Off When <br />
             Buying 2 or More Products
           </h1>
         </div>
