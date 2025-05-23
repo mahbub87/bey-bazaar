@@ -7,7 +7,8 @@ export const transporter = nodemailer.createTransport({
     user: "beybazaarbb@gmail.com",
     pass: process.env.GMAIL_APP_PASSWORD,
   },
-});
+}); 
+
 
 export const sendMail = async ({
   to,
