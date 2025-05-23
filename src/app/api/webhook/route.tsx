@@ -106,7 +106,7 @@ export async function POST(req: Request) {
 
     await resend.emails.send({
       from: "Bey Bazaar <onboarding@resend.dev>",
-      to: "beybazaarbb@gmail.com",
+      to: session.customer_details?.email || "beybazaarbb@gmail.com",
       subject: "Your Order Confirmation",
       html: `
     <h2>Thank you for your order!</h2>

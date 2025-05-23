@@ -35,16 +35,16 @@ export default function Footer() {
         {/* Policies */}
         <div className="text-center md:text-left space-x-2">
           <span>© 2025, BeyBazaar Powered by Next.js + Supabase |</span>
-          <a href="/" className="hover:underline">
+          <a href="/refund" className="hover:underline">
             Refund policy |
           </a>
-          <a href="/" className="hover:underline">
+          <a href="/privacy" className="hover:underline">
             Privacy policy |
           </a>
-          <a href="/" className="hover:underline">
+          <a href="/tos" className="hover:underline">
             Terms of service |
           </a>
-          <a href="/" className="hover:underline">
+          <a href="/shipping" className="hover:underline">
             Shipping policy
           </a>
         </div>

@@ -1,20 +1,44 @@
 "use client"
 
 import { useState } from "react"
-import Image from "next/image"
+import { supabase } from "../lib/supabaseClient"
 
 const Contact = () => {
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: "",
-  })
+  const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" })
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
+  const [images, setImages] = useState<File[]>([])
+  const [previews, setPreviews] = useState<string[]>([])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value })
+  }
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files
+    if (files) {
+      const fileArray = Array.from(files)
+      setImages(fileArray)
+      setPreviews(fileArray.map(file => URL.createObjectURL(file)))
+    }
+  }
+
+  const uploadImages = async () => {
+    const urls: string[] = []
+    for (const file of images) {
+      const { data, error } = await supabase.storage
+        .from("contact-uploads")
+        .upload(`contact-${Date.now()}-${file.name}`, file)
+
+      if (error) throw error
+
+      const url = supabase.storage
+        .from("contact-uploads")
+        .getPublicUrl(data.path).data.publicUrl
+
+      urls.push(url)
+    }
+    return urls
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -22,15 +46,23 @@ const Contact = () => {
     setLoading(true)
     setSuccess(false)
 
-    const res = await fetch("/api/contact", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
-    })
+    try {
+      const imageUrls = await uploadImages()
 
-    if (res.ok) {
-      setForm({ name: "", email: "", subject: "", message: "" })
-      setSuccess(true)
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...form, imageUrls }),
+      })
+
+      if (res.ok) {
+        setForm({ name: "", email: "", subject: "", message: "" })
+        setImages([])
+        setPreviews([])
+        setSuccess(true)
+      }
+    } catch (err) {
+      console.error("Error sending form:", err)
     }
 
     setLoading(false)
@@ -104,19 +136,16 @@ const Contact = () => {
             required
           />
         </div>
-
-        {/* Submit */}
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full mt-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded transition"
-        >
+         <input type="file" accept="image/*" multiple onChange={handleImageChange} className="text-white" />
+        <div className="flex flex-wrap gap-2">
+          {previews.map((src, i) => (
+            <img key={i} src={src} alt={`upload-${i}`} className="w-20 h-20 object-cover rounded" />
+          ))}
+        </div>
+        <button type="submit" disabled={loading} className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded">
           {loading ? "Sending..." : "Send Message"}
         </button>
-
-        {success && (
-          <p className="text-green-400 mt-4 text-center">Your message has been sent!</p>
-        )}
+        {success && <p className="text-green-400 mt-4 text-center">Your message has been sent!</p>}
       </form>
     </div>
   )
