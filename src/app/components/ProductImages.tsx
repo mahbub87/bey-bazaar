@@ -34,7 +34,7 @@ const ProductImages = ({ image_url, box }) => {
     <div>
       {/* Main Image */}
       <div
-        className="w-[500px] h-[500px] relative mx-auto overflow-hidden"
+        className="relative mx-auto w-full max-w-md aspect-square overflow-hidden"
         ref={imageContainerRef}
         onMouseEnter={() => setShowZoom(true)}
         onMouseLeave={() => setShowZoom(false)}
