@@ -23,7 +23,7 @@ const PrivacyPolicy = () => {
         <div>
           <h2 className="text-xl font-semibold mb-2">3. Payment Information</h2>
           <p>
-            We do <strong>not</strong> collect or store any credit card or payment information on our servers. All payment transactions are processed securely by Stripe. Your payment details are handled in accordance with <a href="https://stripe.com/privacy" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">Stripe's Privacy Policy</a>.
+            We do <strong>not</strong> collect or store any credit card or payment information on our servers. All payment transactions are processed securely by Stripe. Your payment details are handled in accordance with <a href="https://stripe.com/privacy" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">Stripe&apos;s Privacy Policy</a>.
           </p>
         </div>
 

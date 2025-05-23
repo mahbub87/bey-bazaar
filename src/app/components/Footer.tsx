@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useState, useContext } from "react";
 import { CurrencyContext } from "../contexts/CurrencyContext";
+import Link from 'next/link';
 
 export default function Footer() {
   const { currency, setCurrency } = useContext(CurrencyContext);
@@ -35,18 +36,11 @@ export default function Footer() {
         {/* Policies */}
         <div className="text-center md:text-left space-x-2">
           <span>© 2025, BeyBazaar Powered by Next.js + Supabase |</span>
-          <a href="/refund" className="hover:underline">
-            Refund policy |
-          </a>
-          <a href="/privacy" className="hover:underline">
-            Privacy policy |
-          </a>
-          <a href="/tos" className="hover:underline">
-            Terms of service |
-          </a>
-          <a href="/shipping" className="hover:underline">
-            Shipping policy
-          </a>
+          <Link className="hover:underline" href="/refund/">Refund Policy |</Link>
+          <Link className="hover:underline" href="/privacy/">Privacy policy |</Link>
+          <Link className="hover:underline" href="/tos/">Terms of service |</Link>
+          <Link className="hover:underline" href="/refund/">Shipping policy</Link>
+
         </div>
       </div>
 
