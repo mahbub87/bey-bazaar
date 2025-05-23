@@ -2,6 +2,8 @@ import { Resend } from "resend";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { supabase } from "../../lib/supabaseClient";
+import { sendMail } from "../../lib/mailer";
+
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -97,18 +99,17 @@ export async function POST(req: Request) {
       emailBody += `• ${product.name} (x${item.quantity}) - $${product.price * item.quantity}\n`;
     }
 
-    await resend.emails.send({
-      from: "onboarding@resend.dev",
-      to: "beybazaarbb@gmail.com",
-      subject: "🛒 New Order Received",
-      text: emailBody,
-    });
+    await sendMail({
+  to: "beybazaarbb@gmail.com",
+  subject: "🛒 New Order Received",
+  text: emailBody,
+});
 
-    await resend.emails.send({
-      from: "Bey Bazaar <onboarding@resend.dev>",
-      to: session.customer_details?.email || "beybazaarbb@gmail.com",
-      subject: "Your Order Confirmation",
-      html: `
+
+   await sendMail({
+  to: session.customer_details?.email || "beybazaarbb@gmail.com",
+  subject: "Your Order Confirmation",
+  html: `
     <h2>Thank you for your order!</h2>
     <p>Hi ${session.customer_details?.name || "Customer"},</p>
     <p>We've received your order and are processing it now.</p>
@@ -140,12 +141,11 @@ export async function POST(req: Request) {
     <p>${formattedAddress}</p>
 
     <hr />
-
-    <p>If you have any questions, feel free to reply to this email or contact us at <a href="mailto:support@yourdomain.com">support@yourdomain.com</a>.</p>
+    <p>If you have any questions, feel free to reply to this email or contact us at <a href="mailto:beybazaarbb@gmail.com">beybazaarbb@gmail.com</a>.</p>
 
     <p>Thanks for shopping with us!<br />The BeyBazaar Team</p>
   `,
-    });
+});
 
     await supabase.from("Cart_Items").delete().eq("cart_id", cart.id);
   }

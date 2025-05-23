@@ -63,14 +63,15 @@ const LoginPage = () => {
         });
         if (error) throw error;
 
-        setMessage("Registration successful!");
-        router.refresh();
+        setMessage("Registration successful! Please check your email for confirmation.");
         router.push("/login"); 
+        router.refresh();
+        
       }
 
       if (mode === MODE.RESET_PASSWORD) {
         const { error } = await supabase.auth.resetPasswordForEmail(email, {
-          redirectTo: "http://localhost:3000/update-password",
+          redirectTo: "https://bey-bazaar.vercel.app/update-password",
         });
         if (error) throw error;
         setMessage("Password reset email sent!");
