@@ -1,13 +1,10 @@
 "use client";
 export const dynamic = "force-dynamic";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import Image from "next/image";
 import Filter from "../components/Filter";
 import AllList from "../components/AllList";
-
-
-
 
 const ListPage = () => {
   const [filters, setFilters] = useState({
@@ -28,7 +25,7 @@ const ListPage = () => {
         <div className="relative w-1/6 mr-8">
           <Image
             src="/GalaxyPegasus.png"
-            alt=""
+            alt="Galaxy Pegasus"
             fill
             className="object-contain"
           />
@@ -36,7 +33,7 @@ const ListPage = () => {
         <div className="relative w-1/6 mr-8">
           <Image
             src="/MeteoLDrago.png"
-            alt=""
+            alt="Meteo L-Drago"
             fill
             className="object-contain"
           />
@@ -44,7 +41,10 @@ const ListPage = () => {
       </div>
 
       <Filter filters={filters} setFilters={setFilters} />
-      <AllList filters={filters} />
+
+      <Suspense fallback={<div>Loading products...</div>}>
+        <AllList filters={filters} />
+      </Suspense>
     </div>
   );
 };
