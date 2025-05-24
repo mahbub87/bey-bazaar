@@ -1,11 +1,7 @@
-import { Resend } from "resend";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { supabase } from "../../lib/supabaseClient";
 import { sendMail } from "../../lib/mailer";
-
-
-const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const config = {
   api: {

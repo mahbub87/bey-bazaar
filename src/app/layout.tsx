@@ -16,6 +16,38 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+export const metadata = {
+  title: {
+    default: "Beybazaar | Online Marketplace",
+    template: "%s | Beybazaar",
+  },
+  description: "Beybazaar is your one-stop shop for midfake BeyBlades.",
+  keywords: ["Metal", "BeyBlade", "beybazaar", "marketplace", "fashion", "electronics"],
+  metadataBase: new URL("https://bey-bazaar.vercel.app"),
+  openGraph: {
+    title: "Beybazaar | Online Marketplace",
+    description: "Beybazaar is your one-stop shop for premium products across all categories.",
+    url: "https://bey-bazaar.vercel.app",
+    siteName: "Beybazaar",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Beybazaar store front",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Beybazaar | Online Marketplace",
+    description: "Beybazaar is your one-stop shop for premium products across all categories.",
+    images: ["/og-image.jpg"],
+  },
+  authors: [{ name: "Mahbub Shafin", url: "https://bey-bazaar.vercel.app" }],
+};
 
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

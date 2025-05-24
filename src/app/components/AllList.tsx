@@ -89,6 +89,7 @@ const ProductList = ({ filters }) => {
     <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
       {products.map((product) => (
         <Link
+          rel="canonical"
           key={product.id}
           href={`/${product.id}`}
           className="flex flex-col gap-4"

@@ -1,3 +1,34 @@
+export const metadata = {
+  title: "Terms of Service | Beybazaar",
+  description:
+    "Read the full Terms of Service for Beybazaar. Learn about order fulfillment, product authenticity, payment processing, and legal disclaimers.",
+  robots: "index, follow",
+  openGraph: {
+    title: "Terms of Service | Beybazaar",
+    description:
+      "View Beybazaar’s terms regarding product authenticity, fulfillment, user accounts, refunds, and legal responsibilities.",
+    url: "https://beybazaar.com/terms-of-service",
+    siteName: "Beybazaar",
+    images: [
+      {
+        url: "/terms-og.jpg", // Optional branded OG image
+        width: 1200,
+        height: 630,
+        alt: "Terms of Service - Beybazaar",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Terms of Service | Beybazaar",
+    description:
+      "Understand your rights and obligations when shopping at Beybazaar.",
+    images: ["/terms-og.jpg"],
+  },
+};
+
 const TermsOfService = () => {
   return (
     <main className="max-w-4xl mx-auto px-4 py-10 text-gray-200">

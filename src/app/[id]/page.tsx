@@ -125,11 +125,10 @@ const Product = () => {
         <div className="h-[1px] bg-gray-700 " />
         <div className="text-sm text-gray-500">
           <h4 className="font-medium mb-4">Details</h4>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur,
-            dignissimos rem, minima temporibus vero, delectus velit perferendis
-            magnam nobis iusto consequatur suscipit.
-          </p>
+          <p className="text-sm text-gray-500">
+  Orders are processed and shipped directly from our suppliers, and delivery times may vary depending on your location. We do not store or process any payment details—Stripe handles all transactions securely. Due to the nature of our sourcing, all sales are final and non-refundable unless the item arrives defective or incorrect. By purchasing, you agree to our terms and privacy policy, which explain how your information is used and your rights as a customer.
+</p>
+
         </div>
       </div>
     </div>

@@ -1,5 +1,36 @@
+export const metadata = {
+  title: "Privacy Policy | Beybazaar",
+  description: "Learn how Beybazaar collects, uses, and protects your personal data. Read our full privacy policy including information on data security, cookies, and user rights.",
+  keywords: [
+    "privacy policy", "Beybazaar privacy", "data protection", "user rights", "cookies policy", 
+    "personal information", "data sharing", "Stripe privacy", "ecommerce privacy"
+  ],
+  openGraph: {
+    title: "Privacy Policy | Beybazaar",
+    description: "Read Beybazaar's full privacy policy covering data collection, sharing, and your rights.",
+    url: "https://beybazaar.com/privacy-policy",
+    siteName: "Beybazaar",
+    images: [
+      {
+        url: "/og-image.jpg", // replace with a privacy-appropriate OG image if needed
+        width: 1200,
+        height: 630,
+        alt: "Privacy Policy - Beybazaar",
+      },
+    ],
+    locale: "en_US",
+    type: "article",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Privacy Policy | Beybazaar",
+    description: "Your data matters. Learn how we protect your privacy at Beybazaar.",
+    images: ["/og-image.jpg"],
+  },
+};
 
 const PrivacyPolicy = () => {
+  
   return (
     <main className="max-w-4xl mx-auto px-4 py-10 text-gray-200">
       <h1 className="text-3xl font-bold mb-6 text-center">Privacy Policy</h1>

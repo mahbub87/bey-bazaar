@@ -1,4 +1,40 @@
 import React from 'react';
+export const metadata = {
+  title: "Refund Policy | Beybazaar",
+  description: "Read Beybazaar's refund policy to understand eligibility, non-refundable situations, and the refund process. Effective May 22, 2025.",
+  keywords: [
+    "Beybazaar refund policy",
+    "refund eligibility",
+    "dropshipping returns",
+    "product not received",
+    "wrong item refund",
+    "damaged item return",
+    "refund process",
+    "contact support"
+  ],
+  openGraph: {
+    title: "Refund Policy | Beybazaar",
+    description: "Understand how refunds work at Beybazaar, including eligibility criteria and how to request one.",
+    url: "https://beybazaar.com/refund-policy",
+    siteName: "Beybazaar",
+    images: [
+      {
+        url: "/refund-policy-og.jpg", // Replace with actual OG image if available
+        width: 1200,
+        height: 630,
+        alt: "Refund Policy - Beybazaar",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Refund Policy | Beybazaar",
+    description: "Learn about Beybazaar's refund conditions, timelines, and support process.",
+    images: ["/refund-policy-og.jpg"],
+  },
+};
 
 const RefundPolicy = () => {
   return (

@@ -5,6 +5,35 @@ import { supabase } from "../lib/supabaseClient"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { CurrencyContext } from "../contexts/CurrencyContext" // ✅ Import currency context
+export const metadata = {
+  title: "Your Profile | Beybazaar",
+  description: "View your profile details and order history on Beybazaar. Manage your account and track past purchases easily.",
+  keywords: [
+    "user profile", "order history", "account settings", "Beybazaar profile", "purchase history", "ecommerce orders", "manage orders"
+  ],
+  openGraph: {
+    title: "Your Profile | Beybazaar",
+    description: "Access your order history and personal account details at Beybazaar.",
+    url: "https://beybazaar.com/profile",
+    siteName: "Beybazaar",
+    images: [
+      {
+        url: "/profile-og.jpg", // update or replace with actual OG image
+        width: 1200,
+        height: 630,
+        alt: "User Profile - Beybazaar",
+      },
+    ],
+    locale: "en_US",
+    type: "profile",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Your Profile | Beybazaar",
+    description: "Manage your profile and orders on Beybazaar with ease.",
+    images: ["/profile-og.jpg"],
+  },
+};
 
 export default function ProfilePage() {
   const [user, setUser] = useState(null)

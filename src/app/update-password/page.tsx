@@ -2,6 +2,24 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "../lib/supabaseClient";
+export const metadata = {
+  title: "Update Password | Beybazaar",
+  description: "Securely update your Beybazaar account password. Keep your account safe and up to date with a new password.",
+  robots: "noindex, nofollow", 
+  openGraph: {
+    title: "Update Password | Beybazaar",
+    description: "Change your account password securely on Beybazaar.",
+    url: "https://beybazaar.com/update-password",
+    siteName: "Beybazaar",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "Update Password | Beybazaar",
+    description: "Securely change your password at Beybazaar.",
+  },
+};
 
 export default function UpdatePasswordPage() {
   const router = useRouter();

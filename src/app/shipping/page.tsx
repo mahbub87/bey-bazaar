@@ -1,4 +1,43 @@
 import React from 'react';
+export const metadata = {
+  title: "Shipping Policy | Beybazaar",
+  description:
+    "Learn about Beybazaar's shipping practices, delivery times, and international shipping policies. Effective May 22, 2025.",
+  keywords: [
+    "Beybazaar shipping policy",
+    "international shipping",
+    "delivery times",
+    "order tracking",
+    "customs and duties",
+    "lost shipments",
+    "shipping delays",
+    "shipping costs",
+  ],
+  openGraph: {
+    title: "Shipping Policy | Beybazaar",
+    description:
+      "Understand how Beybazaar handles order processing, delivery timelines, and shipping fees for international orders.",
+    url: "https://beybazaar.com/shipping-policy",
+    siteName: "Beybazaar",
+    images: [
+      {
+        url: "/shipping-policy-og.jpg", // Replace with a valid OG image
+        width: 1200,
+        height: 630,
+        alt: "Shipping Policy - Beybazaar",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Shipping Policy | Beybazaar",
+    description:
+      "Get detailed information on Beybazaar's global shipping timelines, tracking, and responsibilities.",
+    images: ["/shipping-policy-og.jpg"],
+  },
+};
 
 const ShippingPolicy = () => {
   return (

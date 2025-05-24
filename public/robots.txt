@@ -1,0 +1,13 @@
+# *
+User-agent: *
+Allow: /
+Disallow: /profile
+Disallow: /checkout
+Disallow: /cart
+Disallow: /update-password
+
+# Host
+Host: https://bey-bazaar.vercel.app
+
+# Sitemaps
+Sitemap: https://bey-bazaar.vercel.app/sitemap.xml

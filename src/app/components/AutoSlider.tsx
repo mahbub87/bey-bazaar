@@ -74,13 +74,15 @@ export default function AutoSlider() {
     return (
       <div className="mt-10 flex justify-center">
         <Link href={`/${product.id}`}>
-          <div className="relative w-[500px] sm:w-[550px] rounded-lg p-4 flex flex-col items-center text-gray-500 bg-black hover:border hover:border-white transition duration-500 cursor-pointer">
+          <div className="relative w-full max-w-xs sm:max-w-sm md:max-w-md rounded-lg p-4 flex flex-col items-center text-gray-500 bg-black hover:border hover:border-white transition duration-500 cursor-pointer">
             <Image
               src={product.image_url}
               alt={product.name}
-              width={250}
-              height={250}
-              className="object-contain w-[250px] h-[250px] rounded filter brightness-85 transition-transform duration-300 hover:scale-110"
+               rel="canonical"
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="w-4/5 h-auto max-w-[250px] object-contain rounded filter brightness-85 transition-transform duration-300 hover:scale-110"
             />
 
             <div className="absolute bottom-4 left-4 bg-black/70 px-4 py-2 rounded-lg flex items-center gap-3 text-white text-sm">

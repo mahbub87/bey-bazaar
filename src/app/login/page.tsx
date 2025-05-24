@@ -2,6 +2,36 @@
 import { useRouter } from "next/navigation";
 import { supabase } from "../lib/supabaseClient";
 import { useState } from "react";
+export const metadata = {
+  title: "Login or Register | Access Your Beybazaar Account",
+  description: "Log in to your Beybazaar account or register for a new one to start shopping. Forgot your password? Easily reset it here.",
+  keywords: [
+    "login", "register", "sign up", "Beybazaar login", "reset password", "account access",
+    "Beyblade store login", "create account Beybazaar"
+  ],
+  openGraph: {
+    title: "Login or Register | Access Your Beybazaar Account",
+    description: "Securely log in or create a new account on Beybazaar to shop the latest Beyblades. Password reset available.",
+    url: "https://beybazaar.com/login",
+    siteName: "Beybazaar",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Login or Register at Beybazaar",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Login or Register | Beybazaar",
+    description: "Access your Beybazaar account to shop exclusive Beyblade deals or reset your password.",
+    images: ["/og-image.jpg"],
+  },
+};
 
 enum MODE {
   LOGIN = "LOGIN",
