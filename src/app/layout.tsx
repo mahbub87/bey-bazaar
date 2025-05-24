@@ -53,6 +53,7 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
+      <head><meta name="google-site-verification" content="OIi_drlcoqN4Y12UH7LyOytKKfwTTH3H5rwZGSd7g-U" /></head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} pt-20`}
       > <CurrencyProvider>
