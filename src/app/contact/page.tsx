@@ -2,33 +2,7 @@
 
 import { useState } from "react"
 import { supabase } from "../lib/supabaseClient"
-export const metadata = {
-  title: "Contact Us",
-  description: "Reach out to Beybazaar for any inquiries, feedback, or support. Attach images and include your Order ID if applicable.",
-  keywords: ["contact", "support", "customer service", "beybazaar", "order help"],
-  openGraph: {
-    title: "Contact Us | Beybazaar",
-    description: "Need help or have questions? Contact Beybazaar for quick assistance.",
-    url: "https://beybazaar.com/contact",
-    siteName: "Beybazaar",
-    images: [
-      {
-        url: "/og-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Contact Beybazaar",
-      },
-    ],
-    locale: "en_US",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Contact Us | Beybazaar",
-    description: "Need help or have questions? Contact Beybazaar for quick assistance.",
-    images: ["/og-image.jpg"],
-  },
-};
+
 const Contact = () => {
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" })
   const [loading, setLoading] = useState(false)
