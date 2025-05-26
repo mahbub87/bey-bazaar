@@ -51,7 +51,7 @@ export default function Footer() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <img
+          <Image
             src="/facebook.png"
             alt="Facebook"
             className="w-5 h-5 filter invert brightness-200"
@@ -62,7 +62,7 @@ export default function Footer() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <img
+          <Image
             src="/instagram.png"
             alt="Instagram"
             className="w-5 h-5 filter invert brightness-200"
@@ -73,7 +73,7 @@ export default function Footer() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <img
+          <Image
             src="/youtube.png"
             alt="youtube"
             className="w-5 h-5 brightness-200"
@@ -84,7 +84,7 @@ export default function Footer() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <img
+          <Image
             src="/tiktok.png"
             alt="TikTok"
             className="w-5 h-5 filter invert brightness-200"
