@@ -16,8 +16,13 @@ interface CartItem {
     image_url: string;
   };
 }
+interface CartModalProps {
+  isCartOpen: boolean;
+  setIsCartOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
-const CartModal = () => {
+
+const CartModal: React.FC<CartModalProps> = ({ isCartOpen, setIsCartOpen }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState(true);
   const { refreshCart } = useCart();
@@ -43,29 +48,28 @@ const CartModal = () => {
     return `${symbol}${(price * rate).toFixed(2)}`;
   };
 
- const handleCheckout = async () => {
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const handleCheckout = async () => {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
-  if (!user) return;
+    if (!user) return;
 
-  const res = await fetch("/api/checkout", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({
-    user_id: user.id,
-    user_email: user.email,
-    currency,
-  }),
-});
+    const res = await fetch("/api/checkout", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        user_id: user.id,
+        user_email: user.email,
+        currency,
+      }),
+    });
 
-
-  const { url } = await res.json();
-  if (url) window.location.href = url;
-};
+    const { url } = await res.json();
+    if (url) window.location.href = url;
+  };
 
   useEffect(() => {
     const fetchCartItems = async () => {
@@ -100,7 +104,7 @@ const CartModal = () => {
     };
 
     fetchCartItems();
-  }, [currency]); 
+  }, [currency]);
 
   const handleRemove = async (itemId: string) => {
     await supabase.from("Cart_Items").delete().eq("id", itemId);
@@ -114,71 +118,85 @@ const CartModal = () => {
   );
 
   return (
-    <div className="w-max absolute p-4 rounded-md shadow-[0_3px_10px_rgba(255,255,255,0.3)] bg-[#1e1e1e] top-12 right-0 flex flex-col gap-6 z-20 min-w-[300px]">
-      {loading ? (
-        <div>Loading...</div>
-      ) : cartItems.length === 0 ? (
-        <div className="text-gray-400">Cart is Empty</div>
-      ) : (
-        <>
-          <h2 className="text-xl font-semibold text-white">Shopping Cart</h2>
-          <div className="flex flex-col gap-8 max-h-[400px] overflow-y-auto pr-2">
-            {cartItems.map((item) => (
-              <div key={item.id} className="flex gap-4">
-                <div className="relative w-[72px] h-[96px] flex-shrink-0">
-                  <Image
-                    src={item.product.image_url}
-                    alt={item.product.name}
-                    fill
-                    className="object-contain rounded-md"
-                  />
-                </div>
-                <div className="flex flex-col justify-between w-full">
-                  <div>
-                    <div className="flex items-center justify-between gap-8">
-                      <h3 className="font-semibold text-white">
-                        {item.product.name}
-                      </h3>
-                      <div className="p-1 rounded-sm text-white">
-                        {getPrice(item.product.price)}
+    <>
+    
+     {isCartOpen && (
+        <div className="fixed inset-0 z-50 bg-black bg-opacity-90 p-4 overflow-y-auto">
+          {/* Close Button */}
+          <button
+            onClick={() => setIsCartOpen(false)}
+            className="absolute top-4 right-4 text-white text-3xl font-bold"
+            aria-label="Close cart"
+          >
+            &times;
+          </button>
+
+          {loading ? (
+            <div className="text-white mt-12">Loading...</div>
+          ) : cartItems.length === 0 ? (
+            <div className="text-gray-400 mt-12">Cart is Empty</div>
+          ) : (
+            <div className="mt-12">
+              <h2 className="text-xl font-semibold text-white mb-4">Shopping Cart</h2>
+              <div className="flex flex-col gap-8 max-h-[400px] overflow-y-auto pr-2">
+                {cartItems.map((item) => (
+                  <div key={item.id} className="flex gap-4">
+                    <div className="relative w-[72px] h-[96px] flex-shrink-0">
+                      <Image
+                        src={item.product.image_url}
+                        alt={item.product.name}
+                        fill
+                        className="object-contain rounded-md"
+                      />
+                    </div>
+                    <div className="flex flex-col justify-between w-full">
+                      <div>
+                        <div className="flex items-center justify-between gap-8">
+                          <h3 className="font-semibold text-white">
+                            {item.product.name}
+                          </h3>
+                          <div className="p-1 rounded-sm text-white">
+                            {getPrice(item.product.price)}
+                          </div>
+                        </div>
+                        <div className="text-sm text-gray-500">Available</div>
+                      </div>
+                      <div className="flex justify-between text-sm mt-2">
+                        <span className="text-gray-400">Qty. {item.quantity}</span>
+                        <button
+                          onClick={() => handleRemove(item.id)}
+                          className="text-blue-500"
+                        >
+                          Remove
+                        </button>
                       </div>
                     </div>
-                    <div className="text-sm text-gray-500">Available</div>
                   </div>
-                  <div className="flex justify-between text-sm mt-2">
-                    <span className="text-gray-400">Qty. {item.quantity}</span>
-                    <button
-                      onClick={() => handleRemove(item.id)}
-                      className="text-blue-500"
-                    >
-                      Remove
-                    </button>
-                  </div>
+                ))}
+              </div>
+
+              <div className="border-t pt-4 mt-4">
+                <div className="flex items-center justify-between font-semibold text-white">
+                  <span>Subtotal</span>
+                  <span>{getPrice(subtotal)}</span>
+                </div>
+                <p className="text-gray-500 text-sm mt-2 mb-4">
+                  Taxes calculated at checkout
+                </p>
+                <div className="flex justify-end text-sm gap-2">
+                  <button
+                    onClick={handleCheckout}
+                    className="rounded-md py-3 px-4 bg-white text-black"
+                  >
+                    Checkout
+                  </button>
                 </div>
               </div>
-            ))}
-          </div>
-
-          <div className="border-t pt-4">
-            <div className="flex items-center justify-between font-semibold text-white">
-              <span>Subtotal</span>
-              <span>{getPrice(subtotal)}</span>
             </div>
-            <p className="text-gray-500 text-sm mt-2 mb-4">
-              Taxes calculated at checkout
-            </p>
-            <div className="flex justify-end text-sm gap-2">
-              <button
-                onClick={handleCheckout}
-                className="rounded-md py-3 px-4 bg-white text-black"
-              >
-                Checkout
-              </button>
-            </div>
-          </div>
-        </>
+          )}
+        </div>
       )}
-    </div>
+    </>
   );
 };
 

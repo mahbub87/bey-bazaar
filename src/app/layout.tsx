@@ -18,17 +18,17 @@ const geistMono = Geist_Mono({
 
 export const metadata = {
   title: {
-    default: "Beybazaar | Online Marketplace",
+    default: "Bey Bazaar",
     template: "%s | Beybazaar",
   },
   description: "Beybazaar is your one-stop shop for midfake BeyBlades.",
   keywords: ["Metal", "BeyBlade", "beybazaar", "marketplace", "fashion", "electronics"],
   metadataBase: new URL("https://bey-bazaar.vercel.app"),
   openGraph: {
-    title: "Beybazaar | Online Marketplace",
+    title: "Bey Bazaar",
     description: "Beybazaar is your one-stop shop for premium products across all categories.",
     url: "https://bey-bazaar.vercel.app",
-    siteName: "Beybazaar",
+    siteName: "Bey Bazaar",
     images: [
       {
         url: "/og-image.jpg",
@@ -42,7 +42,7 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Beybazaar | Online Marketplace",
+    title: "Bey bazaar",
     description: "Beybazaar is your one-stop shop for premium products across all categories.",
     images: ["/og-image.jpg"],
   },

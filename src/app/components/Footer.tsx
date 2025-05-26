@@ -47,7 +47,7 @@ export default function Footer() {
       {/* Social Media Icons */}
       <div className="mt-6 flex justify-center space-x-6">
         <a
-          href="https://www.facebook.com"
+          href="https://www.facebook.com/share/1MrVZZWtTM/?mibextid=wwXIfr"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -58,7 +58,7 @@ export default function Footer() {
           />
         </a>
         <a
-          href="https://www.instagram.com"
+          href="https://www.instagram.com/beybazaarbb?igsh=MXNheHZpb2Y3aXBjdQ%3D%3D&utm_source=qr"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -69,7 +69,18 @@ export default function Footer() {
           />
         </a>
         <a
-          href="https://www.tiktok.com"
+          href="https://www.youtube.com/@BeyBazaar"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img
+            src="/youtube.png"
+            alt="youtube"
+            className="w-5 h-5 brightness-200"
+          />
+        </a>
+        <a
+          href="https://www.tiktok.com/@bey.bazaar7"
           target="_blank"
           rel="noopener noreferrer"
         >

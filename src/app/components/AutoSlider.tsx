@@ -72,29 +72,28 @@ export default function AutoSlider() {
   if (isMobile) {
     const product = products[currentIndex];
     return (
-      <div className="mt-10 flex justify-center">
-        <Link href={`/${product.id}`}>
-          <div className="relative w-full max-w-xs sm:max-w-sm md:max-w-md rounded-lg p-4 flex flex-col items-center text-gray-500 bg-black hover:border hover:border-white transition duration-500 cursor-pointer">
-            <Image
-              src={product.image_url}
-              alt={product.name}
-               rel="canonical"
-              width={0}
-              height={0}
-              sizes="100vw"
-              className="w-4/5 h-auto max-w-[250px] object-contain rounded filter brightness-85 transition-transform duration-300 hover:scale-110"
-            />
+      <div className="mt-10 px-4 flex justify-center">
+        <Link href={`/${product.id}`} className="w-full max-w-sm">
+          <div className="relative w-full bg-black rounded-xl p-4 flex flex-col items-center text-white shadow-lg transition duration-300 hover:scale-[1.02]">
+            <div className="w-full h-64 flex items-center justify-center overflow-hidden rounded-lg">
+              <Image
+                src={product.image_url}
+                alt={product.name}
+                width={250}
+                height={250}
+                className="object-contain w-full h-full transition-transform duration-300 hover:scale-105"
+              />
+            </div>
 
-            <div className="absolute bottom-4 left-4 bg-black/70 px-4 py-2 rounded-lg flex items-center gap-3 text-white text-sm">
+            <div className="mt-4 w-full flex justify-between items-center">
               <div>
-                <div className="font-semibold">{product.name}</div>
-                <div className="text-xs">{getPrice(product.price)}</div>
+                <div className="font-semibold text-base">{product.name}</div>
+                <div className="text-sm text-gray-300">
+                  {getPrice(product.price)}
+                </div>
               </div>
-              <button
-                className="ml-4 text-white px-3 py-1 rounded hover:bg-gray-200 transition"
-                style={{ backgroundColor: "#848484" }}
-              >
-                <div className="text-xs">{getPrice(product.price)}</div>
+              <button className="text-xs px-3 py-1 bg-gray-700 rounded hover:bg-gray-600 transition">
+                {getPrice(product.price)}
               </button>
             </div>
           </div>

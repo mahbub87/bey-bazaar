@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useContext } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { supabase } from "../lib/supabaseClient";
 import ProductImages from "../components/ProductImages";
 import Add from "../components/Add";
@@ -32,57 +32,57 @@ const Product = () => {
 
     if (id) fetchProduct();
   }, [id]);
-
+  const router = useRouter();
   const addToCart = async (productId: string, quantity: number = 1) => {
-    if (!productId) {
-      console.error("Missing product ID");
-      return;
-    }
+  if (!productId) {
+    console.error("Missing product ID");
+    return;
+  }
 
-    const { data, error } = await supabase.auth.getUser();
-    const user = data?.user;
+  const { data, error } = await supabase.auth.getUser();
+  const user = data?.user;
 
-    if (error || !user) {
-      console.error("User not logged in", error);
-      alert("You must be logged in");
-      return;
-    }
+  if (error || !user) {
+    console.warn("User not logged in, redirecting...");
+    router.push("/login"); // redirect to login page
+    return;
+  }
 
-    let { data: cart } = await supabase
+  let { data: cart } = await supabase
+    .from("Carts")
+    .select("*")
+    .eq("user_id", user.id)
+    .single();
+
+  if (!cart) {
+    const { data: newCart } = await supabase
       .from("Carts")
-      .select("*")
-      .eq("user_id", user.id)
+      .insert({ user_id: user.id })
+      .select()
       .single();
+    cart = newCart;
+  }
 
-    if (!cart) {
-      const { data: newCart } = await supabase
-        .from("Carts")
-        .insert({ user_id: user.id })
-        .select()
-        .single();
-      cart = newCart;
-    }
+  const { data: existing } = await supabase
+    .from("Cart_Items")
+    .select("*")
+    .eq("cart_id", cart.id)
+    .eq("product_id", productId)
+    .single();
 
-    const { data: existing } = await supabase
+  if (existing) {
+    await supabase
       .from("Cart_Items")
-      .select("*")
-      .eq("cart_id", cart.id)
-      .eq("product_id", productId)
-      .single();
+      .update({ quantity: existing.quantity + quantity })
+      .eq("id", existing.id);
+  } else {
+    await supabase
+      .from("Cart_Items")
+      .insert({ cart_id: cart.id, product_id: productId, quantity });
+  }
 
-    if (existing) {
-      await supabase
-        .from("Cart_Items")
-        .update({ quantity: existing.quantity + quantity })
-        .eq("id", existing.id);
-    } else {
-      await supabase
-        .from("Cart_Items")
-        .insert({ cart_id: cart.id, product_id: productId, quantity });
-    }
-
-    refreshCart();
-  };
+  refreshCart();
+};
 
   const formatPrice = (price: number) => {
     const rate = rates[currency] || 1;
