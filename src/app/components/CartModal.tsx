@@ -133,7 +133,7 @@ const CartModal = () => {
   );
 
   return (
-    <div className="absolute top-14 right-2 p-4 rounded-md shadow-[0_3px_10px_rgba(255,255,255,0.3)] bg-[#1e1e1e] flex flex-col gap-6 z-20 w-full max-w-[400px] sm:right-4 sm:top-12">
+    <div className="absolute top-14 right-2 p-4 rounded-md shadow-[0_3px_10px_rgba(255,255,255,0.3)] bg-[#1e1e1e] flex flex-col gap-6 z-20 w-full sm:w-[400px] sm:right-4 sm:top-12">
       {loading ? (
         <div>Loading...</div>
       ) : cartItems.length === 0 ? (
