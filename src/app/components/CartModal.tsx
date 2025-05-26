@@ -16,15 +16,11 @@ interface CartItem {
     image_url: string;
   };
 }
-interface CartModalProps {
-  isCartOpen: boolean;
-  setIsCartOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}
 
-
-const CartModal: React.FC<CartModalProps> = ({ isCartOpen, setIsCartOpen }) => {
+const CartModal = () => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [checkingOut, setCheckingOut] = useState(false);
   const { refreshCart } = useCart();
   const { currency } = useContext(CurrencyContext);
   const router = useRouter();
@@ -49,26 +45,44 @@ const CartModal: React.FC<CartModalProps> = ({ isCartOpen, setIsCartOpen }) => {
   };
 
   const handleCheckout = async () => {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
+    setCheckingOut(true);
 
-    if (!user) return;
+    try {
+      const {
+        data: { user },
+        error: userError,
+      } = await supabase.auth.getUser();
 
-    const res = await fetch("/api/checkout", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        user_id: user.id,
-        user_email: user.email,
-        currency,
-      }),
-    });
+      if (userError || !user) {
+        throw new Error("User not authenticated.");
+      }
 
-    const { url } = await res.json();
-    if (url) window.location.href = url;
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user_id: user.id,
+          user_email: user.email,
+          currency,
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error("Checkout failed. Please try again.");
+      }
+
+      const { url } = await res.json();
+      if (url) {
+        window.location.href = url;
+      }
+    } catch (err: any) {
+      console.error(err);
+      alert(err.message || "An error occurred during checkout.");
+    } finally {
+      setCheckingOut(false);
+    }
   };
 
   useEffect(() => {
@@ -76,6 +90,7 @@ const CartModal: React.FC<CartModalProps> = ({ isCartOpen, setIsCartOpen }) => {
       const {
         data: { user },
       } = await supabase.auth.getUser();
+
       if (!user) {
         setCartItems([]);
         setLoading(false);
@@ -118,85 +133,74 @@ const CartModal: React.FC<CartModalProps> = ({ isCartOpen, setIsCartOpen }) => {
   );
 
   return (
-    <>
-    
-     {isCartOpen && (
-        <div className="fixed inset-0 z-50 bg-black bg-opacity-90 p-4 overflow-y-auto">
-          {/* Close Button */}
-          <button
-            onClick={() => setIsCartOpen(false)}
-            className="absolute top-4 right-4 text-white text-3xl font-bold"
-            aria-label="Close cart"
-          >
-            &times;
-          </button>
-
-          {loading ? (
-            <div className="text-white mt-12">Loading...</div>
-          ) : cartItems.length === 0 ? (
-            <div className="text-gray-400 mt-12">Cart is Empty</div>
-          ) : (
-            <div className="mt-12">
-              <h2 className="text-xl font-semibold text-white mb-4">Shopping Cart</h2>
-              <div className="flex flex-col gap-8 max-h-[400px] overflow-y-auto pr-2">
-                {cartItems.map((item) => (
-                  <div key={item.id} className="flex gap-4">
-                    <div className="relative w-[72px] h-[96px] flex-shrink-0">
-                      <Image
-                        src={item.product.image_url}
-                        alt={item.product.name}
-                        fill
-                        className="object-contain rounded-md"
-                      />
-                    </div>
-                    <div className="flex flex-col justify-between w-full">
-                      <div>
-                        <div className="flex items-center justify-between gap-8">
-                          <h3 className="font-semibold text-white">
-                            {item.product.name}
-                          </h3>
-                          <div className="p-1 rounded-sm text-white">
-                            {getPrice(item.product.price)}
-                          </div>
-                        </div>
-                        <div className="text-sm text-gray-500">Available</div>
-                      </div>
-                      <div className="flex justify-between text-sm mt-2">
-                        <span className="text-gray-400">Qty. {item.quantity}</span>
-                        <button
-                          onClick={() => handleRemove(item.id)}
-                          className="text-blue-500"
-                        >
-                          Remove
-                        </button>
+    <div className="absolute top-14 right-2 p-4 rounded-md shadow-[0_3px_10px_rgba(255,255,255,0.3)] bg-[#1e1e1e] flex flex-col gap-6 z-20 w-full max-w-[400px] sm:right-4 sm:top-12">
+      {loading ? (
+        <div>Loading...</div>
+      ) : cartItems.length === 0 ? (
+        <div className="text-gray-400">Cart is Empty</div>
+      ) : (
+        <>
+          <h2 className="text-xl font-semibold text-white">Shopping Cart</h2>
+          <div className="flex flex-col gap-6 max-h-[400px] overflow-y-auto pr-1">
+            {cartItems.map((item) => (
+              <div key={item.id} className="flex gap-4">
+                <div className="relative w-[64px] h-[88px] flex-shrink-0">
+                  <Image
+                    src={item.product.image_url}
+                    alt={item.product.name}
+                    fill
+                    className="object-contain rounded-md"
+                  />
+                </div>
+                <div className="flex flex-col justify-between w-full">
+                  <div>
+                    <div className="flex items-center justify-between gap-4">
+                      <h3 className="font-semibold text-white text-sm sm:text-base">
+                        {item.product.name}
+                      </h3>
+                      <div className="text-white text-sm">
+                        {getPrice(item.product.price)}
                       </div>
                     </div>
+                    <div className="text-xs text-gray-500">Available</div>
                   </div>
-                ))}
+                  <div className="flex justify-between text-xs mt-2">
+                    <span className="text-gray-400">Qty. {item.quantity}</span>
+                    <button
+                      onClick={() => handleRemove(item.id)}
+                      className="text-blue-500"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                </div>
               </div>
+            ))}
+          </div>
 
-              <div className="border-t pt-4 mt-4">
-                <div className="flex items-center justify-between font-semibold text-white">
-                  <span>Subtotal</span>
-                  <span>{getPrice(subtotal)}</span>
-                </div>
-                <p className="text-gray-500 text-sm mt-2 mb-4">
-                  Taxes calculated at checkout
-                </p>
-                <div className="flex justify-end text-sm gap-2">
-                  <button
-                    onClick={handleCheckout}
-                    className="rounded-md py-3 px-4 bg-white text-black"
-                  >
-                    Checkout
-                  </button>
-                </div>
-              </div>
+          <div className="border-t pt-4">
+            <div className="flex items-center justify-between font-semibold text-white">
+              <span>Subtotal</span>
+              <span>{getPrice(subtotal)}</span>
             </div>
-          )}
-        </div>
+            <p className="text-gray-500 text-sm mt-2 mb-4">
+              Taxes calculated at checkout
+            </p>
+            <div className="flex justify-end text-sm gap-2">
+              <button
+                onClick={handleCheckout}
+                disabled={checkingOut}
+                className={`rounded-md py-3 px-4 bg-white text-black ${
+                  checkingOut ? "opacity-60 cursor-not-allowed" : ""
+                }`}
+              >
+                {checkingOut ? "Processing..." : "Checkout"}
+              </button>
+            </div>
+          </div>
+        </>
       )}
-    </>
+    </div>
   );
 };
 

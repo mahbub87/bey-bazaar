@@ -151,8 +151,7 @@ const Navbar = () => {
 
             <button
               onClick={() => {
-                setMenuOpen(false);
-                setIsCartOpen(true);
+                setIsCartOpen(!isCartOpen);
               }}
               className="hover:text-gray-300"
             >
@@ -164,11 +163,8 @@ const Navbar = () => {
 
       {/* SHOW CART MODAL IN MOBILE VIEW */}
       {isCartOpen && (
-        <div
-          ref={cartRef}
-          className="fixed inset-0 z-50 flex items-start justify-center md:absolute md:top-24 md:left-auto md:right-0 md:inset-auto"
-        >
-          <CartModal isCartOpen={isCartOpen} setIsCartOpen={setIsCartOpen} />
+        <div ref={cartRef} className="absolute z-50 top-24 left-0 w-full">
+          <CartModal />
         </div>
       )}
 
