@@ -60,7 +60,13 @@ export async function POST(req: Request) {
       customer_email: user_email,
       metadata: { user_id },
       shipping_address_collection: {
-        allowed_countries: ["US", "CA","GB"],
+        allowed_countries: [
+  "US", "CA", "GB", "AU", "NZ", "DE", "FR", "IT", "ES", "NL", "BE", "SE", "NO", "FI", "DK", "IE",
+  "PT", "AT", "CH", "PL", "CZ", "SK", "HU", "RO", "BG", "GR", "SI", "HR", "EE", "LV", "LT",
+  "CY", "MT", "LU", "IS", "LI", "AE", "SA", "QA", "KW", "OM", "BH", "IL", "TR", "EG", "MA",
+  "ZA", "NG", "KE", "GH", "IN", "PK", "BD", "LK", "NP", "TH", "MY", "SG", "PH", "ID", "VN", "HK",
+  "TW", "JP", "KR", "CN", "MX", "BR", "AR", "CL", "CO", "PE", "VE", "UY", "EC", "PA", "CR"
+],
       },
       success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/success`,
       cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/`,
