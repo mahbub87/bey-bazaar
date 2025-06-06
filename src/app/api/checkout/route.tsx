@@ -11,7 +11,10 @@ export async function POST(req: Request) {
     const { user_id, user_email, currency } = await req.json();
 
     if (!user_id || !currency) {
-      return NextResponse.json({ error: "Missing user_id or currency" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Missing user_id or currency" },
+        { status: 400 }
+      );
     }
 
     const { data: cart, error: cartErr } = await supabase
@@ -61,12 +64,84 @@ export async function POST(req: Request) {
       metadata: { user_id },
       shipping_address_collection: {
         allowed_countries: [
-  "US", "CA", "GB", "AU", "NZ", "DE", "FR", "IT", "ES", "NL", "BE", "SE", "NO", "FI", "DK", "IE",
-  "PT", "AT", "CH", "PL", "CZ", "SK", "HU", "RO", "BG", "GR", "SI", "HR", "EE", "LV", "LT",
-  "CY", "MT", "LU", "IS", "LI", "AE", "SA", "QA", "KW", "OM", "BH", "IL", "TR", "EG", "MA",
-  "ZA", "NG", "KE", "GH", "IN", "PK", "BD", "LK", "NP", "TH", "MY", "SG", "PH", "ID", "VN", "HK",
-  "TW", "JP", "KR", "CN", "MX", "BR", "AR", "CL", "CO", "PE", "VE", "UY", "EC", "PA", "CR"
-],
+          "US",
+          "CA",
+          "GB",
+          "AU",
+          "NZ",
+          "DE",
+          "FR",
+          "IT",
+          "ES",
+          "NL",
+          "BE",
+          "SE",
+          "NO",
+          "FI",
+          "DK",
+          "IE",
+          "PT",
+          "AT",
+          "CH",
+          "PL",
+          "CZ",
+          "SK",
+          "HU",
+          "RO",
+          "BG",
+          "GR",
+          "SI",
+          "HR",
+          "EE",
+          "LV",
+          "LT",
+          "CY",
+          "MT",
+          "LU",
+          "IS",
+          "LI",
+          "AE",
+          "SA",
+          "QA",
+          "KW",
+          "OM",
+          "BH",
+          "IL",
+          "TR",
+          "EG",
+          "MA",
+          "ZA",
+          "NG",
+          "KE",
+          "GH",
+          "IN",
+          "PK",
+          "BD",
+          "LK",
+          "NP",
+          "TH",
+          "MY",
+          "SG",
+          "PH",
+          "ID",
+          "VN",
+          "HK",
+          "TW",
+          "JP",
+          "KR",
+          "CN",
+          "MX",
+          "BR",
+          "AR",
+          "CL",
+          "CO",
+          "PE",
+          "VE",
+          "UY",
+          "EC",
+          "PA",
+          "CR",
+        ],
       },
       success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/success`,
       cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/`,
@@ -75,7 +150,9 @@ export async function POST(req: Request) {
     return NextResponse.json({ url: session.url });
   } catch (error) {
     console.error("Stripe checkout error:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
   }
 }
-
