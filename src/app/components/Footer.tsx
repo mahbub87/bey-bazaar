@@ -46,51 +46,60 @@ export default function Footer() {
 
       {/* Social Media Icons */}
       <div className="mt-6 flex justify-center space-x-6">
-        <a
-          href="https://www.facebook.com/share/1MrVZZWtTM/?mibextid=wwXIfr"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            src="/facebook.png"
-            alt="Facebook"
-            className="w-5 h-5 filter invert brightness-200"
-          />
-        </a>
-        <a
-          href="https://www.instagram.com/beybazaarbb?igsh=MXNheHZpb2Y3aXBjdQ%3D%3D&utm_source=qr"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            src="/instagram.png"
-            alt="Instagram"
-            className="w-5 h-5 filter invert brightness-200"
-          />
-        </a>
-        <a
-          href="https://www.youtube.com/@BeyBazaar"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            src="/youtube.png"
-            alt="youtube"
-            className="w-5 h-5 brightness-200"
-          />
-        </a>
-        <a
-          href="https://www.tiktok.com/@bey.bazaar7"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            src="/tiktok.png"
-            alt="TikTok"
-            className="w-5 h-5 filter invert brightness-200"
-          />
-        </a>
-      </div>
+  <a
+    href="https://www.facebook.com/share/1MrVZZWtTM/?mibextid=wwXIfr"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <Image
+      src="/facebook.png"
+      alt="Facebook"
+      width={20}
+      height={20}
+      className="filter invert brightness-200"
+    />
+  </a>
+  <a
+    href="https://www.instagram.com/beybazaarbb?igsh=MXNheHZpb2Y3aXBjdQ%3D%3D&utm_source=qr"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <Image
+      src="/instagram.png"
+      alt="Instagram"
+      width={20}
+      height={20}
+      className="filter invert brightness-200"
+    />
+  </a>
+  <a
+    href="https://www.youtube.com/@BeyBazaar"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <Image
+      src="/youtube.png"
+      alt="YouTube"
+      width={20}
+      height={20}
+      className="brightness-200"
+    />
+  </a>
+  <a
+    href="https://www.tiktok.com/@bey_bazaar"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <Image
+      src="/tiktok.png"
+      alt="TikTok"
+      width={20}
+      height={20}
+      className="filter invert brightness-200"
+    />
+  </a>
+</div>
+
     </footer>
   );
 }
