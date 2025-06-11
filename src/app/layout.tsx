@@ -54,7 +54,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <head>
-        <meta name="google-site-verification" content="OIi_drlcoqN4Y12UH7LyOytKKfwTTH3H5rwZGSd7g-U" />
+        <meta name="google-site-verification" content="8clVB2t0BTp_ntu8nqgAPoas7l3cuPnGbmNxLwkau2A" />
         <meta name="theme-color" content="#171717" />
       </head>
       <body
