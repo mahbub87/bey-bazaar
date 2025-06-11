@@ -77,7 +77,7 @@ export async function POST(req: Request) {
           "BE",
           "SE",
           "NO",
-          "FI",
+          "FI", 
           "DK",
           "IE",
           "PT",
