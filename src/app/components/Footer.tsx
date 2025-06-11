@@ -60,7 +60,7 @@ export default function Footer() {
     />
   </a>
   <a
-    href="https://www.instagram.com/beybazaarbb?igsh=MXNheHZpb2Y3aXBjdQ%3D%3D&utm_source=qr"
+    href="https://www.instagram.com/bey__bazaar?igsh=MXNheHZpb2Y3aXBjdQ%3D%3D&utm_source=qr"
     target="_blank"
     rel="noopener noreferrer"
   >
