@@ -2,6 +2,8 @@
 
 BeyBazaar is an e-commerce platform for purchasing third-party Beyblade-compatible products ("midfakes"). Built with Next.js, Supabase, Stripe, and TailwindCSS, it offers a modern shopping experience with secure authentication, dynamic product listings, and multi-currency support.
 
+🔗 [Live Site](https://bey-bazaar.vercel.app/)
+
 ## Features
 
 - **Product Catalog:** Browse and filter Beyblade-compatible products.
