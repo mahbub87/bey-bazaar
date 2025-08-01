@@ -138,6 +138,9 @@ const Contact = () => {
         </div>
          <input type="file" accept="image/*" multiple onChange={handleImageChange} className="text-white" />
         <div className="flex flex-wrap gap-2">
+          {/* TODO: Replace HTML img with Next.js Image component for better performance and optimization
+               Next.js Image component provides automatic optimization, lazy loading, and better LCP scores
+               This will improve page load speed and user experience */}
           {previews.map((src, i) => (
             <img key={i} src={src} alt={`upload-${i}`} className="w-20 h-20 object-cover rounded" />
           ))}

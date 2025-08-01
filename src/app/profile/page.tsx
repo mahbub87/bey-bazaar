@@ -9,6 +9,11 @@ import { CurrencyContext } from "../contexts/CurrencyContext"
 export default function ProfilePage() {
   const [user, setUser] = useState(null)
   const [orders, setOrders] = useState([])
+  // TODO: Add proper loading and error states for better user experience
+  // Include loading spinners during data fetch and error boundaries for graceful failure handling
+  // Consider implementing skeleton loading patterns for smoother perceived performance
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
   const router = useRouter()
 
    const { currency } = useContext(CurrencyContext);
@@ -33,6 +38,9 @@ export default function ProfilePage() {
 
   useEffect(() => {
     const getUserAndOrders = async () => {
+      setLoading(true)
+      setError(null)
+      
       const {
         data: { user },
       } = await supabase.auth.getUser()
@@ -52,13 +60,16 @@ export default function ProfilePage() {
 
       if (error) {
         console.error("Error fetching orders:", error)
+        setError("Failed to load orders")
       } else {
         setOrders(ordersData)
       }
+      
+      setLoading(false)
     }
 
     getUserAndOrders()
-  }, [])
+  }, [router])
 
   return (
     <div className="p-8 max-w-6xl mx-auto min-h-screen text-white">

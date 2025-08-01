@@ -79,7 +79,10 @@ const ProductList = ({ filters }) => {
     };
 
     fetchProducts();
-  }, [searchTerm, page, filters]);
+    // TODO: Fix React hook dependency warning by including 'currency' in dependency array
+    // This will ensure the component re-renders when currency changes and prices update correctly
+    // Current implementation may show stale pricing when currency is switched
+  }, [searchTerm, page, filters, currency]);
 
   useEffect(() => {
     setPage(1);
