@@ -79,6 +79,9 @@ const CartModal = () => {
       }
     } catch (err: any) {
       console.error(err);
+      // TODO: Implement better error handling with user-friendly messages and retry mechanisms
+      // Consider adding toast notifications, specific error types, and graceful degradation
+      // Also add logging service integration for better debugging in production
       alert(err.message || "An error occurred during checkout.");
     } finally {
       setCheckingOut(false);
